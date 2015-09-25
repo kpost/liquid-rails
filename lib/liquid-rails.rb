@@ -5,6 +5,18 @@ require 'active_support/concern'
 
 module Liquid
   module Rails
+    mattr_accessor :file_ext do
+      "liquid"
+    end
+
+    def self.setup
+      yield self
+    end
+    
+    # extend Configuration
+    #
+    # define_setting :file_ext, "liquid"
+    
     autoload :TemplateHandler,  'liquid-rails/template_handler'
     autoload :FileSystem,       'liquid-rails/file_system'
 

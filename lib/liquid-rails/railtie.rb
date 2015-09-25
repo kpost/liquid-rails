@@ -2,10 +2,16 @@ module Liquid
   module Rails
     class Railtie < ::Rails::Railtie
       config.app_generators.template_engine :liquid
-
+      
+      initializer "liquid-rails.load_app_instance_data" do |app|
+        Liquid::Rails.setup do |config|
+          config.file_ext = ::Rails.application.config.template_file_ext if ::Rails.application.config.respond_to?(:template_file_ext, true)
+        end
+      end
+      
       initializer 'liquid-rails.register_template_handler' do |app|
         ActiveSupport.on_load(:action_view) do
-          ActionView::Template.register_template_handler(:liquid, Liquid::Rails::TemplateHandler)
+          ActionView::Template.register_template_handler(::Liquid::Rails.file_ext.to_sym, Liquid::Rails::TemplateHandler)
         end
       end
 
