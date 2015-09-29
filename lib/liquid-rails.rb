@@ -8,14 +8,6 @@ module Liquid
     mattr_accessor :file_ext do
       "liquid"
     end
-
-    def self.setup
-      yield self
-    end
-    
-    # extend Configuration
-    #
-    # define_setting :file_ext, "liquid"
     
     autoload :TemplateHandler,  'liquid-rails/template_handler'
     autoload :FileSystem,       'liquid-rails/file_system'
@@ -27,6 +19,10 @@ module Liquid
       base.class_eval do
         include Liquid::Rails::Droppable
       end
+    end
+    
+    def self.setup
+      yield self
     end
   end
 end

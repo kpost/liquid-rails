@@ -32,7 +32,7 @@ module Liquid
       def render(context)
         @context = context
         content  = super.html_safe
-
+        
         if ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 2
           if @flush == 'true'
             @context.registers[:view].view_flow.set(@identifier, content) if content
