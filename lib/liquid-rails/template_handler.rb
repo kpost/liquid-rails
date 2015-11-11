@@ -20,7 +20,10 @@ module Liquid
         else
           @view.assigns
         end
-        assigns['content_for_layout'] = @view.content_for(:layout) if @view.content_for?(:layout)
+        if @view.content_for?(:layout)
+          assigns['content_for_layout'] = @view.content_for(:layout)
+          assigns['content_for_head'] = @view.render(partial: "admin/layouts/content_for_head")
+        end
         assigns.merge!(local_assigns.stringify_keys)
 
         liquid = Liquid::Template.parse(template)
